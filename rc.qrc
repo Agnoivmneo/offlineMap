@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style.json</file>
+        <file>line-samples.geojson</file>
+    </qresource>
+</RCC>
