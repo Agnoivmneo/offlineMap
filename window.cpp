@@ -19,12 +19,28 @@ Window::Window(MainWindow *mainWindow)
     //styles.append(QMapLibre::Style("D:/PROJECT/projects_Qt/testforqmaplibre/build-testforqmaplibre-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/style.json", "Demo Tiles"));
 
 
-    QFile geojson(":/line-samples.geojson");
-    geojson.open(QIODevice::ReadOnly);
+    QFile geojson(":/russia_geojson_wgs84.geojson");
+    if (!geojson.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("Error"), tr("Cannot open GeoJSON file"));
+        return;
+    }
+
+    QByteArray geojsonData = geojson.readAll();
+
+    geojson.close();
 
     QVariantMap routeSource;
     routeSource["type"] = "geojson";
-    routeSource["data"] = geojson.readAll();
+    routeSource["data"] = geojsonData;
+
+    /*QFile styleFile(":/style.json");
+    if (!styleFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("Error"), tr("Cannot open style file"));
+        return;
+    }
+
+    QByteArray styleData = styleFile.readAll();
+    styleFile.close();*/
 
     QMapLibre::Settings settings;
     //settings.setStyles(styles);
@@ -34,7 +50,9 @@ Window::Window(MainWindow *mainWindow)
     m_glWidget = std::make_unique<QMapLibre::GLWidget>(settings);
 
     QMapLibre::Map *map = m_glWidget->map();
+    //map->setStyleUrl(":/style.json");
     map->addSource("routeSource", routeSource);
+
 
     m_layout = std::make_unique<QVBoxLayout>(this);
     m_layout->addWidget(m_glWidget.get());
