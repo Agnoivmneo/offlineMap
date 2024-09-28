@@ -15,32 +15,8 @@ Window::Window(MainWindow *mainWindow)
     : QWidget(mainWindow),
       m_mainWindowRef(mainWindow) {
     QMapLibre::Styles styles;
-    //styles.append(QMapLibre::Style("http://gist.github.com/wavded/1200773#file-sample-json", "Demo Tiles"));
+    //styles.append(QMapLibre::Style(":/russia_geojson_wgs84.geojson", "Demo Tiles"));
     //styles.append(QMapLibre::Style("D:/PROJECT/projects_Qt/testforqmaplibre/build-testforqmaplibre-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/style.json", "Demo Tiles"));
-
-
-    QFile geojson(":/russia_geojson_wgs84.geojson");
-    if (!geojson.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this, tr("Error"), tr("Cannot open GeoJSON file"));
-        return;
-    }
-
-    QByteArray geojsonData = geojson.readAll();
-
-    geojson.close();
-
-    QVariantMap routeSource;
-    routeSource["type"] = "geojson";
-    routeSource["data"] = geojsonData;
-
-    /*QFile styleFile(":/style.json");
-    if (!styleFile.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this, tr("Error"), tr("Cannot open style file"));
-        return;
-    }
-
-    QByteArray styleData = styleFile.readAll();
-    styleFile.close();*/
 
     QMapLibre::Settings settings;
     //settings.setStyles(styles);
@@ -48,11 +24,6 @@ Window::Window(MainWindow *mainWindow)
     //settings.setDefaultCoordinate(QMapLibre::Coordinate(43, 21));
 
     m_glWidget = std::make_unique<QMapLibre::GLWidget>(settings);
-
-    QMapLibre::Map *map = m_glWidget->map();
-    //map->setStyleUrl(":/style.json");
-    map->addSource("routeSource", routeSource);
-
 
     m_layout = std::make_unique<QVBoxLayout>(this);
     m_layout->addWidget(m_glWidget.get());
@@ -62,10 +33,29 @@ Window::Window(MainWindow *mainWindow)
 
     setLayout(m_layout.get());
 
+    this->show();
+
     setWindowTitle(tr("Hello QMapLibre"));
 }
 
 void Window::keyPressEvent(QKeyEvent *e) {
+    QMapLibre::Map *map = m_glWidget->map();
+
+    QFile styleFile(":/style.json");
+    if (!styleFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("Error"), tr("Cannot open style file"));
+        return;
+    }
+
+    QByteArray styleData = styleFile.readAll();
+    styleFile.close();
+
+    map->setStyleJson(styleData);
+    map->setCoordinate(QMapLibre::Coordinate(43, 21));
+    map->setZoom(10);
+    //map->setStyleUrl("https://demotiles.maplibre.org/style.json");
+    map->createRenderer();
+    map->startStaticRender();
     if (e->key() == Qt::Key_Escape) {
         close();
     } else {
