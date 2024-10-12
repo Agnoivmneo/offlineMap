@@ -1,28 +1,33 @@
 {
   "version": 8,
-  "name": "My Local Style",
+  "name": "My Raster Style",
   "sources": {
-    "my-mbtiles": {
-      "type": "vector",
+    "my-raster": {
+      "type": "raster",
       "tiles": [
-        "mbtiles://C:\\Users\\glebu\\Documents\\tiles\\osm-2020-02-10-v3.11_russia_moscow.mbtiles"
+        "file://C:\\Users\\glebu\\Documents\\tiles\\output.png" //Для того чтобы отображать через сервер нужно разворачивать сервер в папке с тайлами, я разворачивал в C:\\Users\\glebu\\Documents\\tiles и менял путь на https://localhost:8080/"названиефайла".формат
       ],
+      "coordinates": [
+        [0, 0],
+        [1, 0],
+        [1, 1],
+        [0, 1]
+      ],
+      "tileSize": 512,
       "minzoom": 0,
-      "maxzoom": 15
+      "maxzoom": 1
     }
   },
   "layers": [
     {
-      "id": "my-layer",
-      "type": "fill",
-      "source": "my-mbtiles",
-      "source-layer": "layer_name_in_mbtiles",
-      "layout": {},
+      "id": "my-raster-layer",
+      "type": "raster",
+      "source": "my-raster",
       "paint": {
-        "fill-color": "#888888",
-        "fill-opacity": 0.5
+          "raster-opacity": 1,
+          "raster-resampling": "linear",
+          "raster-fade-duration": 0
       }
     }
-  ],
-  "id": "maplibre_style"
+  ]
 }

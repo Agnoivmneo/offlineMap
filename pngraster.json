@@ -1,0 +1,33 @@
+{
+  "version": 8,
+  "name": "My Raster Style",
+  "sources": {
+    "my-raster": {
+      "type": "raster",
+      "tiles": [
+        "file://C:\\Users\\glebu\\Documents\\tiles\\output.png"
+      ],
+      "coordinates": [
+        [ 0, 0 ],
+        [ 1, 0 ],
+        [ 1, 1 ],
+        [ 0, 1 ]
+      ],
+      "tileSize": 512,
+      "minzoom": 0,
+      "maxzoom": 1
+    }
+  },
+  "layers": [
+    {
+      "id": "my-raster-layer",
+      "type": "raster",
+      "source": "my-raster",
+      "paint": {
+        "raster-opacity": 1,
+        "raster-resampling": "linear",
+        "raster-fade-duration": 0
+      }
+    }
+  ]
+}

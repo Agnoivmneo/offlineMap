@@ -1,0 +1,21 @@
+{
+  "version": 8,
+  "sources": {
+    "my-geojson": {
+      "type": "geojson",
+      "data": "file://C:\\Users\\glebu\\Documents\\tilesmosc.geojson"
+    }
+  },
+  "layers": [
+    {
+      "id": "geojson-layer",
+      "type": "fill",
+      "source": "my-geojson",
+      "layout": {},
+      "paint": {
+        "fill-color": "#888888",
+        "fill-opacity": 0.5
+      }
+    }
+  ]
+}

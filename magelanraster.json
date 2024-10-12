@@ -1,0 +1,20 @@
+{
+  "version": 8,
+  "name": "My Raster Style",
+  "sources": {
+    "my-raster": {
+      "type": "raster",
+      "tiles": [
+        "mbtiles://C:\\Users\\glebu\\Documents\\tiles\\Magellan.mbtiles"
+      ]
+    }
+  },
+  "layers": [
+    {
+      "id": "my-raster-layer",
+      "type": "raster",
+      "source": "my-raster",
+      "paint": {}
+    }
+  ]
+}
