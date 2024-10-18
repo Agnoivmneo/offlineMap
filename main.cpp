@@ -22,17 +22,14 @@ int main(int argc, char *argv[]) {
     QgsApplication app(argc, argv);
     app.initQgis();
 
-    // Создаем главное окно
     QMainWindow mainWindow;
     QWidget *centralWidget = new QWidget(&mainWindow);
     mainWindow.setCentralWidget(centralWidget);
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
 
-    // Создаем виджет для карты
     QgsMapCanvas *mapCanvas = new QgsMapCanvas();
     layout->addWidget(mapCanvas);
 
-    // Загружаем векторный слой Shapefile
     QgsVectorLayer *vectorLayer = new QgsVectorLayer("C:\Users\glebu\Documents\tiles\osm-2020-02-10-v3.11_russia_moscow.mbtiles", "My Shapefile Layer", "ogr");
     if (!vectorLayer->isValid()) {
         return -1;
