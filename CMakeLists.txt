@@ -8,14 +8,14 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(QGIS_PREFIX "C:/Program Files/QGIS3.39.0")
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_package(QGIS REQUIRED)
+
+set(LIBOSMSCOUT_CONFIG_DIR "C:/Program Files (x86)/libosmscout")
+find_package(libosmscout REQUIRED)
 
 set(QMapLibre_DIR "C:/Program Files (x86)/maplibre-native-qt/lib/cmake/QMapLibre")
 find_package(QMapLibre COMPONENTS Widgets Core Location REQUIRED)
@@ -58,7 +58,12 @@ target_link_libraries(testforqmaplibre PRIVATE
     QMapLibre::Widgets
     QMapLibre::Core
     QMapLibre::Location
-    PRIVATE ${QGIS_INCLUDE_DIRS}
+    #
+    OSMScout::OSMScout
+    OSMScout::Map
+    OSMScout::MapGDI
+    OSMScout::MapQt
+    OSMScout::MapSVG
 )
 
 set_target_properties(testforqmaplibre PROPERTIES
